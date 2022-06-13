@@ -11,7 +11,7 @@ Bundler.require(*Rails.groups)
 module Emile
   class Application < Rails::Application
     config.load_defaults 7.0
-    # config.time_zone = "Central Time (US & Canada)"
+    config.autoload_paths += %W( lib/ )
     config.api_only = true
   end
 end
