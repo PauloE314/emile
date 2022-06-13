@@ -2,7 +2,7 @@ class User < ApplicationRecord
   has_secure_password
 
   validates :name, presence: true
-  validates :email, presence: true
+  validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP } 
   validates :password, presence: true, on: :create
   validates :password_confirmation, presence: true, on: :create
   validates :password_confirmation, presence: true, on: :update, if: :password
