@@ -1,15 +1,17 @@
+# frozen_string_literal: true
+
 module Api
   class AuthenticationController < ApplicationController
     def login
       @user = User.find_by(email: login_params[:email])
 
-      if @user and @user.authenticate(login_params[:password])
+      if @user&.authenticate(login_params[:password])
         render json: credentials
       else
         render status: :unauthorized
       end
     end
-  
+
     private
 
     def login_params
