@@ -3,7 +3,8 @@
 module Api
   class RecipesController < ApplicationController
     before_action :set_recipe, only: %i[show update destroy favorite unfavorite]
-    before_action :authenticate, only: %i[create update destroy favorite unfavorite]
+    before_action :authenticate!, only: %i[create update destroy favorite unfavorite]
+    before_action :extract_credentials, only: %i[show]
 
     def index
       @recipes = Recipe.all
@@ -14,11 +15,7 @@ module Api
     end
 
     def show
-      recipe = @recipe.as_json include: %i[creator ingredients steps]
-      render json: recipe.merge({
-                                  favorited: @current_user&.favorited?(@recipe),
-                                  favorites: @recipe.favorites.count
-                                })
+      render json: @recipe, serializer: Recipe::ShowSerializer, current_user: @current_user
     end
 
     def create
