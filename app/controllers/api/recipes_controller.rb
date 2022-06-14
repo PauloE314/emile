@@ -11,18 +11,18 @@ module Api
       @recipes = @recipes.filter_by_category params[:category] if params[:category]
       @recipes = @recipes.filter_by_name params[:name] if params[:name]
 
-      render json: @recipes, serializer: Recipe::ListSerializer
+      render json: @recipes, each_serializer: Recipe::ShortSerializer
     end
 
     def show
-      render json: @recipe, serializer: Recipe::ShowSerializer, current_user: @current_user
+      render json: @recipe, serializer: Recipe::FullSerializer
     end
 
     def create
       @recipe = Recipe.new(recipe_params.merge({ creator: @current_user }))
 
       if @recipe.save
-        render json: @recipe, status: :created
+        render json: @recipe, status: :created, serializer: Recipe::ShortSerializer
       else
         render json: @recipe.errors, status: :bad_request
       end
@@ -30,7 +30,7 @@ module Api
 
     def update
       if @recipe.update recipe_params
-        render json: @recipe, include: %i[creator steps ingredients]
+        render json: @recipe, serializer: Recipe::FullSerializer
       else
         render json: @recipe.errors, status: :bad_request
       end

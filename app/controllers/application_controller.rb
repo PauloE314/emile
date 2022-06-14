@@ -1,15 +1,18 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::API
+  serialization_scope :current_user
+
   rescue_from ActiveRecord::RecordNotFound do
     render status: :not_found
   end
 
+  attr :current_user
+
   private
 
   def authenticate!
-    Authentication.from_jwt(auth_header)
-                  .then { @current_user = _1[:user] }
+    @current_user = Authentication.from_jwt(auth_header)[:user]
   rescue ActiveRecord::RecordNotFound => e
     render json: { errors: e.message }, status: :unauthorized
   rescue JWT::DecodeError => e
@@ -17,8 +20,7 @@ class ApplicationController < ActionController::API
   end
 
   def extract_credentials
-    Authentication.from_jwt(auth_header)
-                  .then { @current_user = _1[:user] }
+    @current_user = Authentication.from_jwt(auth_header)[:user]
   rescue StandardError
   end
 

@@ -1,4 +1,4 @@
-class Recipe::ShowSerializer < ActiveModel::Serializer
+class Recipe::FullSerializer < ActiveModel::Serializer
   attributes :id, :name, :category, :servings, :time, :created_at, :updated_at, :likes, :favorited
 
   has_many :steps
@@ -9,7 +9,7 @@ class Recipe::ShowSerializer < ActiveModel::Serializer
   end
 
   def favorited
-    @instance_options[:current_user]&.favorited?(object) || false
+    scope&.favorited?(object) || false
   end
 
   class StepSerializer < ActiveModel::Serializer
