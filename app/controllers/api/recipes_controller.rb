@@ -67,6 +67,7 @@ module Api
         :servings,
         :time,
         :category,
+        :image,
         { steps: %i[id description position _destroy],
           ingredients: %i[id name amount unit _destroy] }
       ]

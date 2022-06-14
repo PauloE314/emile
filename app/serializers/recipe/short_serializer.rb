@@ -1,5 +1,5 @@
 class Recipe::ShortSerializer < ApplicationSerializer
-  attributes :id, :name, :category, :servings, :time, :created_at, :likes
+  attributes :id, :name, :category, :servings, :time, :created_at, :likes, :image
 
   belongs_to :creator
 
@@ -13,6 +13,10 @@ class Recipe::ShortSerializer < ApplicationSerializer
 
   def likes
     object.favorites.count
+  end
+
+  def image
+    object.image_url
   end
 
   class UserSerializer < ApplicationSerializer
