@@ -13,5 +13,6 @@ module Emile
     config.load_defaults 7.0
     config.autoload_paths += %w[lib/]
     config.api_only = true
+    config.i18n.default_locale = :pt
   end
 end

@@ -1,0 +1,7 @@
+pt:
+  duration:
+    one: "1 minuto"
+    other: "%{count} minutos"
+  servings:
+    one: "1 porção"
+    other: "%{count} porções"
