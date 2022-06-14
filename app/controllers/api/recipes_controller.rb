@@ -2,8 +2,8 @@
 
 module Api
   class RecipesController < ApplicationController
-    before_action :set_recipe, only: %i[show update destroy]
-    before_action :authenticate, only: %i[create update destroy]
+    before_action :set_recipe, only: %i[show update destroy favorite unfavorite]
+    before_action :authenticate, only: %i[create update destroy favorite unfavorite]
 
     def index
       @recipes = Recipe.all
@@ -14,7 +14,11 @@ module Api
     end
 
     def show
-      render json: @recipe, include: %i[creator ingredients steps]
+      recipe = @recipe.as_json include: %i[creator ingredients steps]
+      render json: recipe.merge({
+                                  favorited: @current_user&.favorited?(@recipe),
+                                  favorites: @recipe.favorites.count
+                                })
     end
 
     def create
@@ -33,6 +37,14 @@ module Api
       else
         render json: @recipe.errors, status: :bad_request
       end
+    end
+
+    def favorite
+      Favorite.new(user: @current_user, recipe: @recipe).save
+    end
+
+    def unfavorite
+      Favorite.find_by(user: @current_user, recipe: @recipe).destroy
     end
 
     def destroy

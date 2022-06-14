@@ -2,8 +2,9 @@
 
 class Recipe < ApplicationRecord
   belongs_to :creator, class_name: 'User'
-  has_many :steps, -> { order 'position ASC' }, dependent: :destroy
-  has_many :ingredients, dependent: :destroy
+  has_many :steps, -> { order 'position ASC' }, dependent: :destroy, inverse_of: :recipe
+  has_many :ingredients, dependent: :destroy, inverse_of: :recipe
+  has_many :favorites, dependent: :destroy, inverse_of: :recipe
 
   accepts_nested_attributes_for :ingredients, :steps, allow_destroy: true
 

@@ -5,7 +5,10 @@ Rails.application.routes.draw do
     get 'users/me', to: 'users#me'
 
     resources :users
-    resources :recipes
+    resources :recipes do
+      post '/favorite', to: 'recipes#favorite', on: :member
+      delete '/favorite', to: 'recipes#unfavorite', on: :member
+    end
 
     post 'auth/login', to: 'authentication#login'
   end
