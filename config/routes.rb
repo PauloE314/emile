@@ -3,8 +3,11 @@
 Rails.application.routes.draw do
   namespace :api do
     get 'users/me', to: 'users#me'
+    get 'users/me/recipes', to: 'users#recipes'
+    get 'users/me/favorites', to: 'users#favorites'
 
     resources :users
+
     resources :recipes do
       post '/favorite', to: 'recipes#favorite', on: :member
       delete '/favorite', to: 'recipes#unfavorite', on: :member

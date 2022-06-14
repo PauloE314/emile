@@ -4,7 +4,7 @@ class User < ApplicationRecord
   has_secure_password
 
   has_many :favorites, dependent: :destroy, inverse_of: :user
-  has_many :recipes, through: :favorites
+  has_many :favorited_recipes, through: :favorites, source: :recipe
 
   validates :name, presence: true
   validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }

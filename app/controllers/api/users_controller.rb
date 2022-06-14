@@ -2,7 +2,7 @@
 
 module Api
   class UsersController < ApplicationController
-    before_action :authenticate, only: %i[me]
+    before_action :authenticate!, only: %i[me favorites recipes]
     before_action :set_user, only: %i[show update destroy]
 
     def index
@@ -37,6 +37,15 @@ module Api
 
     def destroy
       @user.destroy
+    end
+
+    def favorites
+      render json: @current_user.favorited_recipes, each_serializer: Recipe::ShortSerializer
+    end
+
+    def recipes
+      render json: Recipe.includes(:creator, :favorites).filter_by_creator(@current_user),
+             each_serializer: Recipe::ShortSerializer
     end
 
     private

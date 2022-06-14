@@ -10,7 +10,7 @@ class Recipe < ApplicationRecord
 
   accepts_nested_attributes_for :ingredients, :steps, allow_destroy: true
 
-  has_one_attached :image
+  has_one_attached :image, dependent: :destroy
 
   validates :name, presence: true
   validates :category, presence: true
@@ -23,13 +23,14 @@ class Recipe < ApplicationRecord
 
   scope :filter_by_category, ->(category) { where_like category: category }
   scope :filter_by_name, ->(name) { where_like name: name }
+  scope :filter_by_creator, ->(user) { where creator: user }
 
   def ensure_unique_steps_positions
     errors.add 'steps', 'Repeated step positions are invalid' if steps.uniq(&:position).length != steps.length
   end
 
   def image_url
-    url_for self.image if self.image.present?
+    url_for image if image.present?
   end
 
   def ensure_valid_image

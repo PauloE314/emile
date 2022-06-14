@@ -1,22 +1,26 @@
-class Recipe::FullSerializer < Recipe::ShortSerializer
-  attributes :favorited, :updated_at
+# frozen_string_literal: true
 
-  has_many :steps
-  has_many :ingredients
+module Recipe
+  class FullSerializer < Recipe::ShortSerializer
+    attributes :favorited, :updated_at
 
-  def favorited
-    scope&.favorited?(object) || false
-  end
+    has_many :steps
+    has_many :ingredients
 
-  class UserSerializer < ApplicationSerializer
-    attributes :id, :name, :email
-  end
+    def favorited
+      scope&.favorited?(object) || false
+    end
 
-  class StepSerializer < ApplicationSerializer
-    attributes :id, :description, :position
-  end
+    class UserSerializer < ApplicationSerializer
+      attributes :id, :name, :email
+    end
 
-  class IngredientSerializer < ApplicationSerializer
-    attributes :id, :amount, :unit
+    class StepSerializer < ApplicationSerializer
+      attributes :id, :description, :position
+    end
+
+    class IngredientSerializer < ApplicationSerializer
+      attributes :id, :amount, :unit
+    end
   end
 end

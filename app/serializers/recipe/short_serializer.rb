@@ -1,25 +1,29 @@
-class Recipe::ShortSerializer < ApplicationSerializer
-  attributes :id, :name, :category, :servings, :time, :created_at, :likes, :image
+# frozen_string_literal: true
 
-  belongs_to :creator
+module Recipe
+  class ShortSerializer < ApplicationSerializer
+    attributes :id, :name, :category, :servings, :time, :created_at, :likes, :image
 
-  def time
-    t('duration', count: object.time)
-  end
+    belongs_to :creator
 
-  def servings
-    t('servings', count: object.servings)
-  end
+    def time
+      t('duration', count: object.time)
+    end
 
-  def likes
-    object.favorites.count
-  end
+    def servings
+      t('servings', count: object.servings)
+    end
 
-  def image
-    object.image_url
-  end
+    def likes
+      object.favorites.size
+    end
 
-  class UserSerializer < ApplicationSerializer
-    attributes :id, :name
+    def image
+      object.image_url
+    end
+
+    class UserSerializer < ApplicationSerializer
+      attributes :id, :name
+    end
   end
 end
