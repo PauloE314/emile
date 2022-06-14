@@ -17,6 +17,7 @@ class Recipe < ApplicationRecord
   validates :servings, presence: true
   validates :time, presence: true, numericality: { integer_only: true, greater_than: 0 }
   validate :ensure_unique_steps_positions
+  validate :ensure_valid_image
 
   before_save { self.category = category.titleize }
 
@@ -29,5 +30,12 @@ class Recipe < ApplicationRecord
 
   def image_url
     url_for self.image if self.image.present?
+  end
+
+  def ensure_valid_image
+    return unless image.attached?
+
+    errors.add(:image, 'Invalid mime type') unless image.blob.image?
+    errors.add(:image, 'Max size is 2MB') if image.blob.byte_size > 2.megabytes
   end
 end

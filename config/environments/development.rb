@@ -33,7 +33,8 @@ Rails.application.configure do
   end
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
-  config.active_storage.service = :local
+  # config.active_storage.service = :local
+  config.active_storage.service = :amazon
 
   Rails.application.routes.default_url_options = {
     host: "localhost:#{ENV.fetch('PORT', 3000)}"

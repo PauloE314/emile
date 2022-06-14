@@ -30,6 +30,7 @@ module Api
 
     def update
       if @recipe.update recipe_params
+        @recipe.image.purge if should_destroy_image
         render json: @recipe, serializer: Recipe::FullSerializer
       else
         render json: @recipe.errors, status: :bad_request
@@ -71,6 +72,10 @@ module Api
         { steps: %i[id description position _destroy],
           ingredients: %i[id name amount unit _destroy] }
       ]
+    end
+
+    def should_destroy_image
+      params.require(:recipe)[:destroy_image].present?
     end
   end
 end
