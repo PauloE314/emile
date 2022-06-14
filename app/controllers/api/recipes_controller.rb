@@ -11,7 +11,7 @@ module Api
       @recipes = @recipes.filter_by_category params[:category] if params[:category]
       @recipes = @recipes.filter_by_name params[:name] if params[:name]
 
-      render json: @recipes
+      render json: @recipes, serializer: Recipe::ListSerializer
     end
 
     def show
