@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Recipe
+class Recipe
   class ShortSerializer < ApplicationSerializer
     attributes :id, :name, :category, :servings, :time, :created_at, :likes, :image
 

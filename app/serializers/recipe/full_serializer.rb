@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Recipe
+class Recipe
   class FullSerializer < Recipe::ShortSerializer
     attributes :favorited, :updated_at
 
