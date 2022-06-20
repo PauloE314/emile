@@ -7,7 +7,7 @@ module Api
     before_action :extract_credentials, only: %i[show]
 
     def index
-      @recipes = Recipe.with_attached_image.includes(:creator, :favorites).all
+      @recipes = Recipe.with_attached_image.includes(:creator).all
       @recipes = @recipes.filter_by_category params[:category] if params[:category]
       @recipes = @recipes.filter_by_name params[:name] if params[:name]
 
