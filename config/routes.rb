@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  mount Rswag::Ui::Engine => '/api-docs'
+  mount Rswag::Api::Engine => '/api-docs'
+  
   namespace :api do
     get 'users/me', to: 'users#me'
     get 'users/me/recipes', to: 'users#recipes'
