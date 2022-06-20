@@ -5,7 +5,7 @@ module Authentication
   JWT_EXP_SECS = 1.hour.to_i
 
   class << self
-    def credentials(user)
+    def create_credentials(user)
       { user: user }.merge(encode(user))
     end
 

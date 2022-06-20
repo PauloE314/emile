@@ -40,13 +40,13 @@ module Api
     end
 
     def favorites
-      render json: @current_user.favorited_recipes.with_attached_image.includes(favorites: { recipe: :creator }),
-             each_serializer: Recipe::ShortSerializer
+      recipes = @current_user.favorited_recipes.with_attached_image.includes(favorites: { recipe: :creator })
+      render json: recipes, each_serializer: Recipe::ShortSerializer
     end
 
     def recipes
-      render json: Recipe.with_attached_image.includes(:creator, :favorites).filter_by_creator(@current_user),
-             each_serializer: Recipe::ShortSerializer
+      recipes = @current_user.recipes.with_attached_image.includes(:creator, :favorites)
+      render json: recipes, each_serializer: Recipe::ShortSerializer
     end
 
     private

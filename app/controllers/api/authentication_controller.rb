@@ -19,7 +19,7 @@ module Api
     end
 
     def credentials
-      @credentials ||= Authentication.credentials(@user)
+      @credentials ||= Authentication.create_credentials(@user)
     end
   end
 end
