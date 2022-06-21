@@ -12,8 +12,8 @@ gem 'bootsnap', require: false
 gem 'jwt', '~> 2.4.1'
 gem 'puma', '~> 5.0'
 gem 'rails', '~> 7.0.3'
-gem 'sqlite3', '~> 1.4'
 gem 'rswag', '~> 2.5.1'
+gem 'sqlite3', '~> 1.4'
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 group :development, :test do

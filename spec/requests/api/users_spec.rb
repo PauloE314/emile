@@ -1,8 +1,9 @@
+# frozen_string_literal: true
+
 require 'swagger_helper'
 
 RSpec.describe 'api/users', type: :request do
   path '/api/users' do
-    
     get('list users') do
       tags 'Users'
       produces 'application/json'
