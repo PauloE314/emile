@@ -7,6 +7,10 @@ class ApplicationController < ActionController::API
     render status: :not_found
   end
 
+  rescue_from ActionController::ParameterMissing do
+    render status: :bad_request
+  end
+
   attr :current_user
 
   private
