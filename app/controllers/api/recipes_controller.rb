@@ -4,6 +4,7 @@ module Api
   class RecipesController < ApplicationController
     before_action :set_recipe, only: %i[show update destroy favorite unfavorite]
     before_action :authenticate!, only: %i[create update destroy favorite unfavorite]
+    before_action :ensure_recipe_ownership, only: %i[update destroy]
     before_action :extract_credentials, only: %i[show]
 
     def index
@@ -53,6 +54,10 @@ module Api
 
     def set_recipe
       @recipe = Recipe.find params[:id]
+    end
+
+    def ensure_recipe_ownership
+      render status: :unauthorized unless @recipe.creator == @current_user
     end
 
     def recipe_params

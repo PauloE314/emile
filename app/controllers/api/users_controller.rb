@@ -2,8 +2,9 @@
 
 module Api
   class UsersController < ApplicationController
-    before_action :authenticate!, only: %i[me favorites recipes]
+    before_action :authenticate!, only: %i[me favorites recipes update destroy]
     before_action :set_user, only: %i[show update destroy]
+    before_action :ensure_account_ownership, only: %i[update destroy]
 
     def index
       render json: User.all
@@ -53,6 +54,10 @@ module Api
 
     def set_user
       @user = User.find params[:id]
+    end
+
+    def ensure_account_ownership
+      render status: :unauthorized unless @user == @current_user
     end
 
     def user_params
