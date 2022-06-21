@@ -7,7 +7,7 @@ class Favorite < ApplicationRecord
   validate :prevent_duplicate
 
   def prevent_duplicate
-    users_ids = recipe.favorites.includes(:user).map { |favorite| favorite.user.id }
-    errors.add 'user', 'User already favorited this recipe' if users_ids.include? user.id
+    repeated = self.class.find_by(user_id: user.id, recipe_id: recipe.id).present?
+    errors.add 'user', 'User already favorited this recipe' if repeated
   end
 end
