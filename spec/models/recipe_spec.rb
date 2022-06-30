@@ -71,5 +71,46 @@ RSpec.describe Recipe, type: :model do
 
   context 'when data is valid' do
     it { is_expected.to be_valid }
+
+    it 'forces title format on category' do
+      subject.save
+      expect(subject.category).to eq('Brazilian') 
+    end
+  end
+
+  describe '.filter_by_category' do
+    before do
+      described_class.create(data.merge({ category: 'Another' }))
+      described_class.create(data.merge({ category: 'Category' }))
+    end
+
+    it 'returns only recipes categorized like the specified category' do
+      other_recipes = described_class.where.not(category: 'Catego')
+      expect(described_class.filter_by_category 'Category').to_not include(other_recipes)
+    end 
+  end
+
+  describe '.filter_by_name' do
+    before do
+      described_class.create(data.merge({ name: 'Another' }))
+      described_class.create(data.merge({ name: 'Name' }))
+    end
+
+    it 'returns only recipes named like the specified name' do
+      other_recipes = described_class.where.not(name: 'Nam')
+      expect(described_class.filter_by_name 'Name').to_not include(other_recipes)
+    end
+  end
+
+  describe '.filter_by_creator' do
+    before do
+      described_class.create(data.merge({ creator: creator }))
+      described_class.create(data.merge({ creator: User.create() }))
+    end
+
+    it 'returns only recipes that have the specified name' do
+      other_recipes = described_class.where.not(creator: creator)
+      expect(described_class.filter_by_creator creator).to_not include(other_recipes)
+    end 
   end
 end
