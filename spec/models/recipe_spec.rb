@@ -3,27 +3,11 @@ require 'rails_helper'
 RSpec.describe Recipe, type: :model do
   let(:creator) { User.create }
   let(:data) do
-    {
-      name: 'Recipe',
-      creator: creator,
-      time: 10,
-      servings: 5,
-      category: 'brazilian',
-      image: nil,
-      steps_attributes: [
-        {
-          position: 0,
-          description: 'step one'
-        }
-      ],
-      ingredients_attributes: [
-        {
-          name: 'first ingredient',
-          amount: 1,
-          unit: 'kg'  
-        }
-      ],
-    }
+    params = attributes_for(:recipe)
+    params[:creator] = creator
+    params[:steps_attributes] = [attributes_for(:step)]
+    params[:ingredients_attributes] = [attributes_for(:ingredient)]
+    params
   end
 
   subject { Recipe.new(data) }
@@ -73,6 +57,7 @@ RSpec.describe Recipe, type: :model do
     it { is_expected.to be_valid }
 
     it 'forces title format on category' do
+      subject.category = 'brazilian'
       subject.save
       expect(subject.category).to eq('Brazilian') 
     end
@@ -105,7 +90,7 @@ RSpec.describe Recipe, type: :model do
   describe '.filter_by_creator' do
     before do
       described_class.create(data.merge({ creator: creator }))
-      described_class.create(data.merge({ creator: User.create() }))
+      described_class.create(data.merge({ creator: create(:user) }))
     end
 
     it 'returns only recipes that have the specified name' do

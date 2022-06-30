@@ -1,14 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Step, type: :model do
-  let(:recipe) { Recipe.new }
-  let(:data) do
-    {
-      description: 'Some ingredient',
-      position: 1,
-      recipe: recipe
-    }
-  end
+  let(:recipe) { create(:recipe) }
+  let(:data) { { recipe: recipe, description: 'Some step', position: 1 } }
 
   subject { Step.new(data) }
 

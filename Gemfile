@@ -20,6 +20,7 @@ group :development, :test do
   gem 'rspec-rails', '~> 6.0.0.rc1'
   gem 'rubocop', '~> 1.30', require: false
   gem 'rubocop-rails', require: false
+  gem 'factory_bot_rails', '~> 6.2.0'
 end
 
 group :development do

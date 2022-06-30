@@ -1,14 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  let(:data) do
-    {
-      name: 'name',
-      password: 'password',
-      password_confirmation: 'password',
-      email: 'email@email.com'
-    }
-  end
+  let(:data) { attributes_for(:user) }
 
   subject { User.new(data) }
 
@@ -47,22 +40,10 @@ RSpec.describe User, type: :model do
   end
 
   describe '#favorited?' do
-    let(:recipe_data) do
-      {
-        name: 'Recipe',
-        creator: subject,
-        time: 10,
-        servings: 5,
-        category: 'brazilian',
-        image: nil,
-        steps_attributes: [],
-        ingredients_attributes: [],
-      }
-    end
-    let(:favorited_recipe) { Recipe.create(recipe_data) }
-    let(:not_favorited_recipe) { Recipe.create(recipe_data) }
+    let(:favorited_recipe) { create(:recipe) }
+    let(:not_favorited_recipe) { create(:recipe) }
 
-    before { Favorite.new(user: subject, recipe: favorited_recipe).save }
+    before { create(:favorite, user: subject, recipe: favorited_recipe) }
     
     context 'when user has favorited the recipe' do
       it 'returns true' do

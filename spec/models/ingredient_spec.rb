@@ -1,15 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Ingredient, type: :model do
-  let(:recipe) { Recipe.new }
-  let(:data) do
-    {
-      name: 'Some ingredient',
-      amount: 1,
-      unit: 'kg',
-      recipe: recipe
-    }
-  end
+  let(:recipe) { create(:recipe) }
+  let(:data) { attributes_for(:ingredient).merge(recipe: recipe) }
 
   subject { Ingredient.new(data) }
 
