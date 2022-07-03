@@ -5,7 +5,7 @@ class User < ApplicationRecord
 
   has_many :favorites, dependent: :destroy, inverse_of: :user
   has_many :favorited_recipes, through: :favorites, source: :recipe
-  has_many :recipes, foreign_key: :creator, dependent: :nullify
+  has_many :recipes, foreign_key: :creator_id, dependent: :nullify, inverse_of: :creator
 
   validates :name, presence: true
   validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
